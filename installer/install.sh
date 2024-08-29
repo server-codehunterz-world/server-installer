@@ -16,7 +16,7 @@ export gc="sudo git clone "
 
 #########################################################################################################
 
-echo -e "Console > Auto Updaing & Upgrading System Now!."
+echo -e "Console > Auto Updaing & Upgrading System Now!..."
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get dist-upgrade -y
@@ -32,7 +32,7 @@ sudo apt-get autoremove -y
 
 
 function build() {
-    echo -e "Console > Installing necessary build packages!."
+    echo -e "Console > Installing necessary build packages!..."
     $i make cmake build-essential sof*prop*c* curl git wget python3-dev python3-pip python3-venv
     $i golang
     $i clang gcc
@@ -46,15 +46,17 @@ function build() {
 
 
 function nginx() {
-    echo -e "Console > Installing NGINX-WebServer and Firewall!."
+    echo -e "Console > Installing NGINX-WebServer and Firewall!..."
     $i nginx-full ufw fail2ban
     sudo systemctl enable nginx --now
+    echo -e "Console > Installing Certbot for SSL Securing!..."
     $i certbot
     $i python*certbot*nginx
 }
 
+
 function php() {
-    echo -e "Console > Installing PHP!."
+    echo -e "Console > Installing PHP!..."
     $i php*fpm php php*cli php*mysql php*curl php*common php*mbstring php*xml
     $i php*mysql
     $i php*json
@@ -64,9 +66,19 @@ function php() {
 }
 
 function mysql() {
-    echo -e "Console > Installing MYSQL Client and Server!."
+    while true;
+    do
+    echo -e "Console > Installing MYSQL Client and Server!..."
     $i mariadb-client mariadb-server
     sudo systemctl enable mariadb --now
+    read -p "Do you want to setup db?(Yy/Nn) > " x
+    case $x in 
+        y|Y) setup_mysql; continue;;
+        n|N) break; exit;;
+        *) echo -e "Console > Invalid Input!"; continue;;
+    esac
+    done
+    
     
 }
 
@@ -82,7 +94,7 @@ function setup_mysql() {
 
 
 function phpbb3() {
-    echo -e "Console > Installing phpBB3- requirements now!"
+    echo -e "Console > Installing phpBB3- requirements now!..."
     php;
     mysql;
     build;
@@ -105,7 +117,7 @@ function phpbb3() {
 }
 
 function wordpress() {
-    echo -e "Console > Installing wordpress now!."
+    echo -e "Console > Installing wordpress now!..."
     mkdir -p /var/www/blog/public_html
     
     
@@ -115,7 +127,7 @@ function wordpress() {
 
 
 function ufw_firewall() {
-    echo -e "Console > Settingup Firewall!."
+    echo -e "Console > Settingup Firewall!..."
     $i ufw
     sudo ufw enable
     sudo ufw allow 80
@@ -141,7 +153,7 @@ function ufw_firewall() {
 
 
 function auto_install() {
-    echo -e "Console > Auto-Installing Software!."
+    echo -e "Console > Auto-Installing Software!..."
     build;
     nginx;
     php;
@@ -163,11 +175,11 @@ function manual_install() {
         MENU="Wählen Sie eine Option:"
         
         OPTIONS=(1 "Install Build-Dependencies"
-            2 "Install WebServer"
-            3 "Install PHP"
-            4 "Install MYSQL"
-            5 "Install UFW Firewall"
-        6 "Beenden")
+                 2 "Install WebServer"
+                 3 "Install PHP"
+                 4 "Install MYSQL"
+                 5 "Install UFW Firewall"
+                 6 "Beenden")
         
         CHOICE=$(dialog --clear \
             --backtitle "Linux Shell Script Tutorial" \
@@ -229,11 +241,11 @@ function menu() {
         MENU="Wählen Sie eine Option:"
         
         OPTIONS=(1 "Auto Install requirements"
-            2 "Manual Install requirements"
-            3 "Install phpBB3"
-            4 "Install Wordpress"
-            5 "Setup MYSQL"
-        6 "Beenden")
+                 2 "Manual Install requirements"
+                 3 "Install phpBB3"
+                 4 "Install Wordpress"
+                 5 "Setup MYSQL"
+                 6 "Beenden")
         
         CHOICE=$(dialog --clear \
             --backtitle "Linux Shell Script Tutorial" \

@@ -65,10 +65,10 @@ function menu() {
         MENU="Wählen Sie eine Option:"
         
         OPTIONS=(1 "Setup Db, User and Password !"
-            2 "Add User !"
-            3 "Create Database !"
-            4 "Join Interactive MYSQL-Shell !"
-        5 "Quit")
+                 2 "Add User !"
+                 3 "Create Database !"
+                 4 "Join Interactive MYSQL-Shell !"
+                 5 "Quit")
         
         CHOICE=$(dialog --clear \
             --backtitle "Linux Shell Script Tutorial" \
