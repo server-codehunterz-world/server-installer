@@ -92,7 +92,7 @@ function phpbb3() {
     mkdir -p /var/www/board
     cd /var/www/board
     wget https://downloads.phpbb.de/pakete/deutsch/3.3/3.3.12/phpBB-3.3.12-deutsch.zip
-    unzip https://downloads.phpbb.de/pakete/deutsch/3.3/3.3.12/phpBB-3.3.12-deutsch.zip
+    unzip phpBB-3.3.12-deutsch.zip
     cd phpBB*
     mv ./* ../
     cd ..
