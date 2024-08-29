@@ -75,34 +75,26 @@ function menu() {
         clear
         case $CHOICE in
             1)
-                echo -e "Console > Start installing build-dependencies!."
-                build
+                echo -e "Console > Setup Homepage!."
+                setup_homepage
             ;;
             2)
-                echo -e "Console > Start installing NGINX Webserver!."
-                nginx
+                echo -e "Console > Setup phpBB3!."
+                setup_phpbb3
             ;;
             3)
-                echo -e "Console > Start installing PHP!."
-                php
+                echo -e "Console > Setup Wordpress!."
+                setup_wordpress
             ;;
             4)
-                echo -e "Console > Start installing MYSQL!."
-                mysql
+                echo -e "Console > Setup Element!."
+                setup_element
             ;;
             5)
-                echo -e "Console > Install UFW Firewall!"
-                ufw_firewall
+                echo -e "Console > Setup Matrix!."
+                setup_matrix
             ;;
             6)
-                echo -e "Console > Install phpBB3!"
-                phpbb3
-            ;;
-            7)
-                echo -e "Console > Install Wordpress!"
-                wordpress
-            ;;
-            8)
                 echo -e "Console > Exiting application!"
                 exit
             ;;
