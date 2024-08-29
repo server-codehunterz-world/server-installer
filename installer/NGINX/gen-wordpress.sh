@@ -19,12 +19,20 @@ echo "server {
     server_name $server_name;
 
     root $root_directory;
-    index $index_file;
+    index index.php index.html;
 
     location / {
-        try_files \$uri \$uri/ =404;
+        try_files $uri $uri/ /index.php?q=$request_uri;
     }
-}" > $config_file
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $request_filename;
+        include fastcgi_params;
+    }
+}
+" > $config_file
 
 # Symbolischen Link erstellen
 ln -s $config_file /etc/nginx/sites-enabled/

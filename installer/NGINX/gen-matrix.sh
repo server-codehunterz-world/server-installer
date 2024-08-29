@@ -16,13 +16,37 @@ config_file="/etc/nginx/sites-available/$server_name"
 
 echo "server {
     listen 80;
+	listen [::]:80;
+    server_name $server_name;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
     server_name $server_name;
 
-    root $root_directory;
-    index $index_file;
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/$server_name/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$server_name/privkey.pem;
 
     location / {
-        try_files \$uri \$uri/ =404;
+        proxy_pass http://localhost:8008;
+        proxy_set_header X-Forwarded-For $remote_addr;
+    }
+}
+
+server {
+    listen 8448 ssl default_server;
+    listen [::]:8448 ssl default_server;
+    server_name $server_name;
+
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/$server_name/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$server_name/privkey.pem;
+    location / {
+        proxy_pass http://localhost:8008;
+        proxy_set_header X-Forwarded-For $remote_addr;
     }
 }" > $config_file
 
