@@ -32,4 +32,4 @@ ln -s $config_file /etc/nginx/sites-enabled/
 # NGINX neu laden
 systemctl reload nginx
 
-echo "NGINX-Konfiguration für $server_name erstellt und aktiviert."
+echo "Created & Activated NGINX-Configuration for $server_name !..."
