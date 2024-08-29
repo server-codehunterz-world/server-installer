@@ -2,9 +2,7 @@
 # install.sh
 
 # Author: BlackLeakz
-# Website: https://codehunterz.world
-# Blog:    https://blog.codehunterz.world
-# Board:   https://board.codehunterz.world
+# Website: https://codehunterz.world/projects/server_installer
 # Version: 0.1
 # Description: This is a Server Control Panel's installation script to automatically install all server- requirements according to use nginx, phpbb3, wordpress, phpmyadmin on a headless debian-server!"
 
@@ -49,6 +47,7 @@ function nginx() {
     echo -e "Console > Installing NGINX-WebServer and Firewall!..."
     $i nginx-full ufw fail2ban
     sudo systemctl enable nginx --now
+    
     echo -e "Console > Installing Certbot for SSL Securing!..."
     $i certbot
     $i python*certbot*nginx
@@ -62,6 +61,7 @@ function php() {
     $i php*json
     $i php*opcache php*gd
     $i php*bcmath php*soap php*mysqlnd php*intl php*zip
+    echo -e "Console > Finishing PHP-Setup!...\Enabling PHP Service!.."
     sudo systemctl enable php8.2-fpm --now
 }
 
@@ -73,8 +73,8 @@ function mysql() {
     sudo systemctl enable mariadb --now
     read -p "Do you want to setup db?(Yy/Nn) > " x
     case $x in 
-        y|Y) setup_mysql; continue;;
-        n|N) break; exit;;
+        y|Y) setup_mysql; menu;;
+        n|N) break; menu;;
         *) echo -e "Console > Invalid Input!"; continue;;
     esac
     done
@@ -113,8 +113,9 @@ function phpbb3() {
     chown www-data:www-data -hR /var/www/board
     chmod 755 -R /var/www/board
     setup_mysql;
-    
 }
+
+
 
 function wordpress() {
     echo -e "Console > Installing wordpress now!..."
@@ -182,7 +183,7 @@ function manual_install() {
                  6 "Beenden")
         
         CHOICE=$(dialog --clear \
-            --backtitle "Linux Shell Script Tutorial" \
+            --backtitle "(c)odehunterz.world || Server Installer || v0.1a" \
             --title "$TITLE" \
             --menu "$MENU" \
             $HEIGHT $WIDTH $CHOICE_HEIGHT \
