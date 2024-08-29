@@ -6,6 +6,29 @@
 echo -e "Console > Starting NGINX-Setup Guide!..."
 
 
+function setup_homepage() {
+    echo -e "Console > Setting up NGINX-Homepage Config!..."
+
+}
+
+function setup_phpbb3() {
+    echo -e "Console > Setting up NGINX-Homepage Config!..."
+    
+}
+function setup_wordpress() {
+    echo -e "Console > Setting up NGINX-Homepage Config!..."
+    
+}
+function setup_element() {
+    echo -e "Console > Setting up NGINX-Homepage Config!..."
+    
+}
+function setup_matrix() {
+    echo -e "Console > Setting up NGINX-Homepage Config!..."
+    
+}
+
+
 function menu() {
     while true;
     do
@@ -19,7 +42,7 @@ function menu() {
                  2 "Setup phpBB3"
                  3 "Setup Wordpress"
                  4 "Setup Element"
-                 5 "Setup "
+                 5 "Setup Matrix"
                  6 "Beenden")
         
         CHOICE=$(dialog --clear \
