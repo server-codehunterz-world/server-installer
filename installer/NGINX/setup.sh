@@ -6,25 +6,44 @@
 echo -e "Console > Starting NGINX-Setup Guide!..."
 
 
+sudo chmod a+x -R ./*
+me=$(whoami)
+sudo chown $me -hR ./*
+
+
+
 function setup_homepage() {
     echo -e "Console > Setting up NGINX-Homepage Config!..."
+    sudo ./gen-homepage.sh
 
 }
+
+
 
 function setup_phpbb3() {
-    echo -e "Console > Setting up NGINX-Homepage Config!..."
+    echo -e "Console > Setting up PHPBB3-Homepage Config!..."
+    sudo ./gen-phpbb3.sh
     
 }
+
+
 function setup_wordpress() {
-    echo -e "Console > Setting up NGINX-Homepage Config!..."
+    echo -e "Console > Setting up WORDPRESS-Homepage Config!..."
+    sudo ./gen-wordpress.sh
     
 }
+
+
 function setup_element() {
-    echo -e "Console > Setting up NGINX-Homepage Config!..."
+    echo -e "Console > Setting up ELEMENT-Homepage Config!..."
+    sudo ./gen-element.sh
     
 }
+
+
 function setup_matrix() {
-    echo -e "Console > Setting up NGINX-Homepage Config!..."
+    echo -e "Console > Setting up MATRIX-Homepage Config!..."
+    sudo ./gen-matrix.sh
     
 }
 
