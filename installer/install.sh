@@ -47,7 +47,6 @@ function nginx() {
     echo -e "Console > Installing NGINX-WebServer and Firewall!..."
     $i nginx-full ufw fail2ban
     sudo systemctl enable nginx --now
-    
     echo -e "Console > Installing Certbot for SSL Securing!..."
     $i certbot
     $i python*certbot*nginx
