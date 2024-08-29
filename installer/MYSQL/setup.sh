@@ -9,8 +9,7 @@
 # Description: This is a Server Control Panel's MYSQL script to automatically setup Db User and Password"
 
 function procedure {
-    while true;
-    do
+   
         read -p "Database-Name > " DB_NAME
         read -p "Database-User > " DB_USER
         read -p "User-Password > " DB_PASS
@@ -19,14 +18,12 @@ function procedure {
         mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};"
         mysql -u root -p -e "CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';"
         mysql -u root -p -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';"
-        mysql -u root -p -e "FLUSH PRIVILEGES;"
-    done
+
 }
 
 
 function add_user() {
-    while true;
-    do
+
         
         read -p "Database-User > " DB_USER
         read -p "User-Password > " DB_PASS
@@ -38,17 +35,16 @@ function add_user() {
         mysql -u root -p -e "CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';"
         mysql -u root -p -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';"
         mysql -u root -p -e "FLUSH PRIVILEGES;"
-    done
+
 }
 
 
 function create_db() {
-    while true;
-    do
+  
         mysql -u root -p -e "SHOW DATABASES;"
         read -p "Database-Name > " DB_Name
         mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME};"
-    done
+   
 }
 
 

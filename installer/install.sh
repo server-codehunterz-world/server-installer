@@ -14,13 +14,13 @@
 export i="sudo apt-get install -y "
 export gc="sudo git clone "
 
-
+#########################################################################################################
 
 echo -e "Console > Auto Updaing & Upgrading System Now!."
-sudo apt-get update 
-sudo apt-get upgrade -y 
-sudo apt-get dist-upgrade -y 
-sudo apt-get autoremove -y 
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y
+sudo apt-get autoremove -y
 
 
 
@@ -34,28 +34,31 @@ sudo apt-get autoremove -y
 function build() {
     echo -e "Console > Installing necessary build packages!."
     $i make cmake build-essential sof*prop*c* curl git wget python3-dev python3-pip python3-venv
-    $i golang 
-    $i clang gcc 
+    $i golang
+    $i clang gcc
     $i libc6
-    $i  libffi-dev python-setuptools sqlite3 libssl-dev python-virtualenv libjpeg-dev libxslt1-dev
+    $i libffi-dev  sqlite3 libssl-dev libjpeg-dev libxslt1-dev
     $i apt-transport-https
-
+    $i python3-wheel python3-setuptools python3-virtualenv
+    
 }
+
+
 
 function nginx() {
     echo -e "Console > Installing NGINX-WebServer and Firewall!."
     $i nginx-full ufw fail2ban
     sudo systemctl enable nginx --now
-    $i certbot 
+    $i certbot
     $i python*certbot*nginx
 }
 
 function php() {
     echo -e "Console > Installing PHP!."
     $i php*fpm php php*cli php*mysql php*curl php*common php*mbstring php*xml
-    $i php*mysql 
-    $i php*json 
-    $i php*opcache php*gd 
+    $i php*mysql
+    $i php*json
+    $i php*opcache php*gd
     $i php*bcmath php*soap php*mysqlnd php*intl php*zip
     sudo systemctl enable php8.2-fpm --now
 }
@@ -84,7 +87,7 @@ function phpbb3() {
     mysql;
     build;
     nginx;
-
+    
     echo -e "Console > Start Downloading phpBB3!."
     mkdir -p /var/www/board
     cd /var/www/board
@@ -97,6 +100,7 @@ function phpbb3() {
     cd ..
     chown www-data:www-data -hR /var/www/board
     chmod 755 -R /var/www/board
+    setup_mysql;
     
 }
 
@@ -105,14 +109,14 @@ function wordpress() {
     mkdir -p /var/www/blog/public_html
     
     
-
+    
     
 }
 
 
 function ufw_firewall() {
     echo -e "Console > Settingup Firewall!."
-    $i ufw 
+    $i ufw
     sudo ufw enable
     sudo ufw allow 80
     sudo ufw allow 80/tcp
@@ -143,6 +147,8 @@ function auto_install() {
     php;
     mysql;
     ufw_firewall;
+    phpbb3;
+    wordpress;
 }
 
 
@@ -150,55 +156,63 @@ function auto_install() {
 function manual_install() {
     while true;
     do
-    HEIGHT=15
-    WIDTH=40
-    CHOICE_HEIGHT=4
-    TITLE="Server Installer || (c)odehunterz.world"
-    MENU="Wählen Sie eine Option:"
-
-    OPTIONS=(1 "Install Build-Dependencies"
-             2 "Install WebServer"
-             3 "Install PHP"
-             4 "Install MYSQL"
-             5 "Install UFW Firewall"
-             6 "Beenden")
-
-    CHOICE=$(dialog --clear \
-                    --backtitle "Linux Shell Script Tutorial" \
-                    --title "$TITLE" \
-                    --menu "$MENU" \
-                    $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                    "${OPTIONS[@]}" \
-                    2>&1 >/dev/tty)
-
-    clear
-    case $CHOICE in
-        1)
-            echo -e "Console > Start installing build-dependencies!."
-            build
+        HEIGHT=15
+        WIDTH=40
+        CHOICE_HEIGHT=4
+        TITLE="Server Installer || (c)odehunterz.world"
+        MENU="Wählen Sie eine Option:"
+        
+        OPTIONS=(1 "Install Build-Dependencies"
+            2 "Install WebServer"
+            3 "Install PHP"
+            4 "Install MYSQL"
+            5 "Install UFW Firewall"
+        6 "Beenden")
+        
+        CHOICE=$(dialog --clear \
+            --backtitle "Linux Shell Script Tutorial" \
+            --title "$TITLE" \
+            --menu "$MENU" \
+            $HEIGHT $WIDTH $CHOICE_HEIGHT \
+            "${OPTIONS[@]}" \
+        2>&1 >/dev/tty)
+        
+        clear
+        case $CHOICE in
+            1)
+                echo -e "Console > Start installing build-dependencies!."
+                build
             ;;
-        2)
-            echo -e "Console > Start installing NGINX Webserver!."
-            nginx
+            2)
+                echo -e "Console > Start installing NGINX Webserver!."
+                nginx
             ;;
-        3) 
-            echo -e "Console > Start installing PHP!."
-            php
+            3)
+                echo -e "Console > Start installing PHP!."
+                php
             ;;
-        4) 
-            echo -e "Console > Start installing MYSQL!."
-            mysql
+            4)
+                echo -e "Console > Start installing MYSQL!."
+                mysql
             ;;
-        5)
-            echo -e "Console > Install UFW Firewall!"
-            ufw_firewall
+            5)
+                echo -e "Console > Install UFW Firewall!"
+                ufw_firewall
             ;;
-        6)
-            echo -e "Console > Exiting application!"
-            exit
+            6)
+                echo -e "Console > Install phpBB3!"
+                phpbb3
             ;;
-    esac
-    done 
+            7)
+                echo -e "Console > Install Wordpress!"
+                wordpress
+            ;;
+            8)
+                echo -e "Console > Exiting application!"
+                exit
+            ;;
+        esac
+    done
 }
 
 
@@ -206,65 +220,65 @@ function manual_install() {
 
 
 function menu() {
-while true;
-do
-    HEIGHT=15
-    WIDTH=40
-    CHOICE_HEIGHT=4
-    TITLE="Server Installer || (c)odehunterz.world"
-    MENU="Wählen Sie eine Option:"
-
-    OPTIONS=(1 "Auto Install requirements"
-             2 "Manual Install requirements"
-             3 "Install phpBB3"
-             4 "Install Wordpress"
-             5 "Setup MYSQL"
-             6 "Beenden")
-
-    CHOICE=$(dialog --clear \
-                    --backtitle "Linux Shell Script Tutorial" \
-                    --title "$TITLE" \
-                    --menu "$MENU" \
-                    $HEIGHT $WIDTH $CHOICE_HEIGHT \
-                    "${OPTIONS[@]}" \
-                    2>&1 >/dev/tty)
-
-    clear
-    case $CHOICE in
-        1)
-            echo -e "Console > Start installing necessary packages!."
-            auto_install
+    while true;
+    do
+        HEIGHT=15
+        WIDTH=40
+        CHOICE_HEIGHT=4
+        TITLE="Server Installer || (c)odehunterz.world"
+        MENU="Wählen Sie eine Option:"
+        
+        OPTIONS=(1 "Auto Install requirements"
+            2 "Manual Install requirements"
+            3 "Install phpBB3"
+            4 "Install Wordpress"
+            5 "Setup MYSQL"
+        6 "Beenden")
+        
+        CHOICE=$(dialog --clear \
+            --backtitle "Linux Shell Script Tutorial" \
+            --title "$TITLE" \
+            --menu "$MENU" \
+            $HEIGHT $WIDTH $CHOICE_HEIGHT \
+            "${OPTIONS[@]}" \
+        2>&1 >/dev/tty)
+        
+        clear
+        case $CHOICE in
+            1)
+                echo -e "Console > Start installing necessary packages!."
+                auto_install
             ;;
-        2)
-            echo -e "Console > Start manual install!."
-            manual_install
+            2)
+                echo -e "Console > Start manual install!."
+                manual_install
             ;;
-        3) 
-            echo -e "Console > Start installing phpBB3!."
-            phpbb3
+            3)
+                echo -e "Console > Start installing phpBB3!."
+                phpbb3
             ;;
-        4) 
-            echo -e "Console > Start installing Wordpress!."
-            wordpress
+            4)
+                echo -e "Console > Start installing Wordpress!."
+                wordpress
             ;;
-        5) 
-            echo -e "Console > Setup MYSQL!."
-            setup_mysql
+            5)
+                echo -e "Console > Setup MYSQL!."
+                setup_mysql
             ;;
-        6)
-            echo -e "Console > Exiting application!"
-            exit
+            6)
+                echo -e "Console > Exiting application!"
+                exit
             ;;
-    esac
-done 
+        esac
+    done
 }
 
 
 
 function main() {
     menu;
-
-
+    
+    
 }
 
 
