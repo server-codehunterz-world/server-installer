@@ -138,3 +138,4 @@ ln -s $config_file /etc/nginx/sites-enabled/
 systemctl reload nginx
 
 echo "Created & Activated NGINX-Configuration for $server_name !..."
+sudo cp -r $config_file generated_configs
