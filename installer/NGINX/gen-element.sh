@@ -6,10 +6,9 @@ prompt() {
     echo $response
 }
 
-# Benutzerdefinierte Eingaben
-server_name=$(prompt "Geben Sie den Servernamen ein")
-root_directory=$(prompt "Geben Sie das Root-Verzeichnis ein")
-index_file=$(prompt "Geben Sie die Index-Datei ein (z.B. index.html)")
+server_name=$(prompt "Setup Servername")
+root_directory=$(prompt "Setup Root-Directory")
+index_file=$(prompt "Setup Index-File (z.B. index.html)")
 
 # NGINX-Konfigurationsdatei erstellen
 config_file="/etc/nginx/sites-available/$server_name"

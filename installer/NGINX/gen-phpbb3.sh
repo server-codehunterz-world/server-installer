@@ -7,9 +7,10 @@ prompt() {
 }
 
 # Benutzerdefinierte Eingaben
-server_name=$(prompt "Geben Sie den Servernamen ein")
-root_directory=$(prompt "Geben Sie das Root-Verzeichnis ein")
-index_file=$(prompt "Geben Sie die Index-Datei ein (z.B. index.html)")
+server_name=$(prompt "Setup Servername")
+root_directory=$(prompt "Setup Root-Directory")
+index_file=$(prompt "Setup Index-File (z.B. index.html)")
+php_fpm=$(prompt "Set your php-fpm socket i.e php8.2-fpm")
 
 # NGINX-Konfigurationsdatei erstellen
 config_file="/etc/nginx/sites-available/$server_name"
@@ -17,7 +18,7 @@ config_file="/etc/nginx/sites-available/$server_name"
 echo "# Upstream to abstract backend connection(s) for PHP
 upstream phpbb {
     # Path to PHP 8.2 FPM socket, replace this with your own socket path
-    server unix:/run/php/php8.2-fpm.sock;
+    server unix:/run/php/$php_fpm.sock;
 }
 
 server {
